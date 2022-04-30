@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "msp430.h": "c",
+        "stdint.h": "c"
+    }
+}
