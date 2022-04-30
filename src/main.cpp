@@ -1,12 +1,7 @@
 //******************************************************************************
-//   MSP430G2xx3 Demo - USCI_B0, I2C Slave multiple byte TX/RX
+//   Codebase for RAW sensors processing and control for greenhouse project using MCU MSP430G2553
 //
-//   Description: I2C master communicates to I2C slave sending and receiving
-//   3 different messages of different length. (This is the slave code). The
-//   slave will be in LPM0 mode, waiting for the master to initiate the
-//   communication. The slave will send/receive bytes based on the master's
-//   request. The slave will handle I2C bytes sent/received using the
-//   I2C interrupt.
+//   Description: I2C code base from MSP430Ware for G2553
 //   ACLK = NA, MCLK = SMCLK = DCO 16MHz.
 //
 //
@@ -21,11 +16,7 @@
 //                |             P1.7|---+----- I2C Data (UCB0SDA)
 //                |                 |
 //                |                 |
-//
-//   Nima Eskandari
-//   Texas Instruments Inc.
-//   April 2017
-//   Built with CCS V7.0
+
 //******************************************************************************
 
 #include <msp430.h>
@@ -91,14 +82,7 @@ void initGPIO()
 	/*
 	 * Setup pin 2.4 as interrupt trigger
 	 */
-	// P2SEL |= BIT3; // Assign pin 	P2.3 for interrupt ticks counter
-	// P2DIR = 0x01;  // P1.0 output, else input
 	setupInterruptForPin(BIT4, 2);
-	// P2OUT &= ~BIT4; // P2.4 set, else reset
-	// P2REN |= BIT4;	// P2.4 pullup
-	// P2IE |= BIT4;	// P2.4 interrupt enabled
-	// P2IES &= ~BIT4; // P2.4 lo/Hi edge
-	// P2IFG &= ~BIT4; // P2.4 clear interrupt flag
 }
 
 void initTimer()
@@ -176,7 +160,6 @@ void __attribute__((interrupt(TIMER0_A0_VECTOR))) timerA0ISR(void)
 	for (uint8_t i = 0; i < CHANNELS; i++)
 	{
 		TicksPer20MS[i] = TicksCount[i]; // save ticks counted per 20ms
-		// TicksPer20MS[i] = 60000U; // save ticks counted per 20ms
 		TicksCount[i] = 0; // reset counter
 	}
 
